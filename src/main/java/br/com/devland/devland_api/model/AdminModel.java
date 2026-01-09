@@ -36,7 +36,6 @@ public class AdminModel implements UserDetails {
     private String email;
 
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 

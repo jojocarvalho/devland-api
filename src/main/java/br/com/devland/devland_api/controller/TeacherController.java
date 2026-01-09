@@ -3,6 +3,7 @@ package br.com.devland.devland_api.controller;
 import br.com.devland.devland_api.dto.TeacherRequest;
 import br.com.devland.devland_api.dto.TeacherResponse;
 import br.com.devland.devland_api.service.TeacherService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ import java.util.List;
 
 import static br.com.devland.devland_api.configuration.LoggerConfiguration.getLogger;
 
-
+@Tag(name = "Professores", description = "Endpoints para gerenciar professores")
 @RestController
 @CrossOrigin
 @RequestMapping("/teachers")

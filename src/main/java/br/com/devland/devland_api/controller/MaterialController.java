@@ -3,6 +3,7 @@ package br.com.devland.devland_api.controller;
 import br.com.devland.devland_api.dto.MaterialRequest;
 import br.com.devland.devland_api.dto.MaterialResponse;
 import br.com.devland.devland_api.service.MaterialService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,7 @@ import java.util.List;
 
 import static br.com.devland.devland_api.configuration.LoggerConfiguration.getLogger;
 
+@Tag(name = "Materiais", description = "Endpoints para gerenciar materiais de cursos")
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/materials")

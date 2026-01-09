@@ -6,12 +6,18 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "teacher")
 @Getter
 @Setter
-public class TeacherModel {
+public class TeacherModel implements UserDetails {
 
     @Id
     private String teacherId;
@@ -31,4 +37,26 @@ public class TeacherModel {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+
+        return List.of(new SimpleGrantedAuthority("ROLE_TEACHER"));
+    }
+
+    @Override
+    public String getUsername() {
+        return regmat;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() { return true; }
+
+    @Override
+    public boolean isAccountNonLocked() { return true; }
+
+    @Override
+    public boolean isCredentialsNonExpired() { return true; }
+
+    @Override
+    public boolean isEnabled() { return true; }
 }

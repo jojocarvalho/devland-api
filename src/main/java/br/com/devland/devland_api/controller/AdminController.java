@@ -3,6 +3,7 @@ package br.com.devland.devland_api.controller;
 import br.com.devland.devland_api.dto.AdminRequest;
 import br.com.devland.devland_api.dto.AdminResponse;
 import br.com.devland.devland_api.service.AdminService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,7 @@ import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-
+@Tag(name = "Administradores", description = "Endpoints para gerenciar administradores")
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/admins")

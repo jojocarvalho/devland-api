@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -33,12 +34,22 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                                .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                                .requestMatchers("/error").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/materials").hasRole("STUDENT")
-//                        .anyRequest().hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                        .requestMatchers("/error").permitAll()
+                                .requestMatchers("/").permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/v3/api-docs/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/swagger-ui/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/swagger-ui.html")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/custom-swagger.css")).permitAll()
+
+
+                        .requestMatchers(HttpMethod.GET, "/materials").hasAnyRole("STUDENT", "TEACHER")
+
+                        .requestMatchers(HttpMethod.GET, "/students").hasRole("TEACHER")
+
+                        .anyRequest().hasRole("ADMIN")
                                 // permissão para testar endpoints sem autenticação (NÃO SUBIR PARA PRODUÇÃO)
-                                .anyRequest().permitAll()
+//                                .anyRequest().permitAll()
 
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
@@ -47,7 +58,9 @@ public class SecurityConfiguration {
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(authorizationService);
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+
+        authProvider.setUserDetailsService(authorizationService);
 
         authProvider.setPasswordEncoder(passwordEncoder());
 

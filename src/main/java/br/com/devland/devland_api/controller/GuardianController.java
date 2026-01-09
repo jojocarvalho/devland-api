@@ -3,6 +3,7 @@ package br.com.devland.devland_api.controller;
 import br.com.devland.devland_api.dto.GuardianRequest;
 import br.com.devland.devland_api.dto.GuardianResponse;
 import br.com.devland.devland_api.service.GuardianService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ import java.util.List;
 
 import static br.com.devland.devland_api.configuration.LoggerConfiguration.getLogger;
 
-
+@Tag(name = "Responsáveis", description = "Endpoints para gerenciar responsáveis por alunos")
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/guardians")

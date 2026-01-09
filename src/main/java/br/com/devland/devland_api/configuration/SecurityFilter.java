@@ -2,6 +2,7 @@ package br.com.devland.devland_api.configuration;
 
 
 import br.com.devland.devland_api.repository.StudentRepository;
+import br.com.devland.devland_api.service.AuthorizationService;
 import br.com.devland.devland_api.service.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -22,7 +23,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Autowired
     TokenService tokenService;
     @Autowired
-    StudentRepository studentRepository;
+    AuthorizationService authorizationService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -31,7 +32,7 @@ public class SecurityFilter extends OncePerRequestFilter {
             var login = tokenService.validateToken(token);
 
             if (login != null && !login.isEmpty()) {
-                UserDetails user = studentRepository.findByRegmat(login).orElse(null);
+                UserDetails user = authorizationService.loadUserByUsername(login);
 
                 if (user != null) {
                     var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
