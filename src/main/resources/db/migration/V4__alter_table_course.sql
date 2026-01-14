@@ -1,0 +1,1 @@
+ALTER TABLE course ADD COLUMN required_evaluations INTEGER DEFAULT 0;
